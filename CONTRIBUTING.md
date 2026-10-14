@@ -31,6 +31,7 @@ Skills are instructions for agents working in an unfamiliar repository. They sho
 - Keep the report within the skill's stated scope. Creating a report does not authorize unrelated changes to the product or repository.
 - Give each analysis skill the shared helper `scripts/report.py` and a `scripts/report-sections.txt` that lists the bold section names from **Expected result**, one per line. The helper creates the dated report file and checks the finished report. The skill must still describe the same rules in words, so it works without Python.
 - `report.py` is identical in every skill. Edit only `templates/skill/scripts/report.py`, then run `python tools/check_skills.py --fix` to copy it to all skills.
+- A skill that collects other reports may use another folder under `analysis/` when its `SKILL.md` says so. Set that folder with a `folder: <path>` line in `report-sections.txt`; Analysis Summary uses `folder: analysis/summary`.
 
 ## Helper scripts
 

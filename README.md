@@ -43,6 +43,8 @@ Keep each skill self-contained. Add optional folders only when a skill needs the
 
 Every completed analysis is saved as a dated Markdown report under `analysis/<skill-name>/` in the repository being analyzed. The report's first line is the analysis date in `YYYY-MM-DD` format.
 
+When several analyses have been run, the Analysis Summary skill collects them in `analysis/summary/`: a short summary for people that shows the most critical findings of each analysis, and one work loop per technical analysis. A work loop is a self-contained file that any coding agent can run again and again, fixing one finding with a test per run, until all findings are handled. The skill only prepares these files and then asks; a loop starts only when you say so.
+
 ## Helper scripts
 
 Some steps are mechanical and give the same answer every time, so the skills include small Python 3 scripts for them. The scripts use only the standard library. They are optional: without Python, the agent follows the same steps from `SKILL.md`.
@@ -70,4 +72,5 @@ Copy [`templates/skill/SKILL.md`](templates/skill/SKILL.md) into a descriptively
 - [Lean Canvas Analysis](skills/lean-canvas-analysis/SKILL.md): map a startup's riskiest business hypotheses across the nine Lean Canvas blocks and prioritize practical validation experiments.
 - [Porter's Five Forces Analysis](skills/porters-five-forces-analysis/SKILL.md): assess industry structure and competitive pressure across the five forces, with explicit scope, evidence, and strategic implications.
 - [FMEA](skills/fmea/SKILL.md): identify failure modes, causes, effects, and existing controls, then prioritize evidence-based risk-reduction actions.
+- [Analysis Summary](skills/analysis-summary/SKILL.md): summarize the saved analysis reports for people, with the most critical findings of each analysis first, and prepare a self-contained work loop per technical analysis that fixes its findings one at a time with tests. It asks before any loop is started.
 - [Anti-Reverse-Engineering Analysis](skills/anti-reverse-engineering-analysis/SKILL.md): find what an outsider can learn or do by studying a product's client, API, error responses, tokens or delivered builds, and plan refactoring that keeps business logic on the server, with an automated guard for every fix.

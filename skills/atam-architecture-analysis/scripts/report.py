@@ -12,9 +12,11 @@ new    Creates analysis/<skill-name>/<YYYY-MM-DD>-<topic-slug>.md in the
        report is never overwritten (a numeric suffix is added instead), and
        the file starts with the date line, a title and the required section
        headings. Prints the path of the new file.
-         --dir DIR   create the report in DIR instead
-         --bare      write only the date line
-         --root DIR  treat DIR as the repository root
+         --dir DIR     create the report in DIR (relative to the repository
+                       root) instead
+         --title TEXT  use TEXT instead of the topic in the title
+         --bare        write only the date line
+         --root DIR    treat DIR as the repository root
 
 check  Fails when the first line is not today's date (or --date), when the
        date in the file name differs from the first line, when a required
@@ -25,7 +27,9 @@ check  Fails when the first line is not today's date (or --date), when the
                             repository prescribes its own template or language
 
 The skill name and title are read from ../SKILL.md. Required sections are read
-from report-sections.txt next to this script, one heading per line.
+from report-sections.txt next to this script, one heading per line. A line
+"folder: <path>" in that file replaces analysis/<skill-name> as the default
+report folder.
 
 Exit codes: 0 OK, 1 problems found, 2 usage or file error.
 Needs Python 3.8 or later and only the standard library.
@@ -92,13 +96,23 @@ def read_skill_info():
     return name, title or name
 
 
-def read_sections():
+def read_config(skill_name):
+    """Return (required sections, report folder relative to the repository root)."""
+    sections = []
+    folder = os.path.join("analysis", skill_name)
     try:
         with open(SECTIONS_FILE, encoding="utf-8-sig") as f:
             lines = [line.strip() for line in f]
     except OSError:
-        return []
-    return [line for line in lines if line and not line.startswith("#")]
+        lines = []
+    for line in lines:
+        if not line or line.startswith("#"):
+            continue
+        if line.lower().startswith("folder:"):
+            folder = os.path.normpath(line.split(":", 1)[1].strip())
+        else:
+            sections.append(line)
+    return sections, folder
 
 
 def find_repo_root(start):
@@ -158,18 +172,16 @@ def parse_headings(lines):
 
 def cmd_new(args):
     name, title = read_skill_info()
+    sections, default_folder = read_config(name)
     today = datetime.date.today().isoformat()
-    if args.dir:
-        folder = os.path.abspath(args.dir)
-    else:
-        root = os.path.abspath(args.root) if args.root else find_repo_root(os.getcwd())
-        folder = os.path.join(root, "analysis", name)
+    root = os.path.abspath(args.root) if args.root else find_repo_root(os.getcwd())
+    folder = os.path.abspath(os.path.join(root, args.dir or default_folder))
     os.makedirs(folder, exist_ok=True)
 
     parts = [today, ""]
     if not args.bare:
-        parts += ["# %s: %s" % (title, args.topic.strip()), ""]
-        for section in read_sections():
+        parts += ["# %s: %s" % (title, (args.title or args.topic).strip()), ""]
+        for section in sections:
             parts += ["## " + section, ""]
     content = "\n".join(parts).rstrip("\n") + "\n"
 
@@ -190,6 +202,7 @@ def cmd_new(args):
 
 def cmd_check(args):
     name, _ = read_skill_info()
+    sections, default_folder = read_config(name)
     expected = datetime.date.today()
     if args.date:
         expected = parse_date(args.date)
@@ -227,7 +240,7 @@ def cmd_check(args):
     headings = parse_headings(lines)
     if not args.no_sections:
         found = [normalize(h_text) for _, level, h_text in headings if level >= 2]
-        for section in read_sections():
+        for section in sections:
             wanted = normalize(section)
             if not any(h == wanted or h.startswith(wanted + " ") for h in found):
                 problems.append('missing section heading "%s"' % section)
@@ -251,10 +264,11 @@ def cmd_check(args):
                                 "was found instead" % (line_no, secret_name))
                 break
 
-    folder = os.path.dirname(os.path.abspath(args.report))
-    if os.path.basename(folder) != name or os.path.basename(os.path.dirname(folder)) != "analysis":
-        notes.append("the report is not in analysis/%s/. That is fine only if the repository's "
-                     "instructions say where reports go" % name)
+    expected_parts = default_folder.split(os.sep)
+    actual_parts = os.path.dirname(os.path.abspath(args.report)).split(os.sep)
+    if actual_parts[-len(expected_parts):] != expected_parts:
+        notes.append("the report is not in %s/. That is fine only if the repository's "
+                     "instructions say where reports go" % default_folder.replace(os.sep, "/"))
 
     for problem in problems:
         print("FAIL  " + problem)
@@ -276,7 +290,9 @@ def main(argv=None):
 
     new = commands.add_parser("new", help="create a new report file")
     new.add_argument("topic", help="short description of what is analyzed; used for the title and file name")
-    new.add_argument("--dir", help="folder to create the report in, instead of analysis/<skill-name>/")
+    new.add_argument("--dir", help="folder for the report, relative to the repository root, "
+                                   "instead of analysis/<skill-name>/")
+    new.add_argument("--title", help="text to use in the title instead of the topic")
     new.add_argument("--root", help="repository root, if it cannot be found from the working directory")
     new.add_argument("--bare", action="store_true", help="write only the date line")
     new.set_defaults(func=cmd_new)

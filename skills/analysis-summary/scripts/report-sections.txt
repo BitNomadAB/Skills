@@ -1,0 +1,10 @@
+# Required headings for the summary file, one per line, as listed under
+# "Expected result" in SKILL.md. Work loop files go in the same folder and
+# are checked with --no-sections.
+folder: analysis/summary
+Most critical
+Top lists per analysis
+Business summary
+Work loops
+Reports included
+Open questions

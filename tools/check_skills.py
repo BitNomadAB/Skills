@@ -33,8 +33,9 @@ def normalize(text):
 
 
 def section_lines(path):
-    return [line.strip() for line in read(path).splitlines()
-            if line.strip() and not line.strip().startswith("#")]
+    lines = [line.strip() for line in read(path).splitlines()]
+    return [line for line in lines
+            if line and not line.startswith("#") and not line.lower().startswith("folder:")]
 
 
 def main():

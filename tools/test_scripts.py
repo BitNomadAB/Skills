@@ -20,6 +20,7 @@ import zipfile
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REPORT = os.path.join(REPO, "skills", "fmea", "scripts", "report.py")
+SUMMARY_REPORT = os.path.join(REPO, "skills", "analysis-summary", "scripts", "report.py")
 SCAN = os.path.join(REPO, "skills", "anti-reverse-engineering-analysis", "scripts", "scan_build.py")
 TODAY = datetime.date.today().isoformat()
 
@@ -101,6 +102,29 @@ class ReportTests(unittest.TestCase):
         with open(path, encoding="utf-8") as f:
             self.assertEqual(f.read(), TODAY + "\n")
         self.assertIn(os.path.join("docs", "reviews"), path)
+
+    def test_relative_dir_starts_at_repo_root(self):
+        path = self.new("x", "--dir", "docs/reviews")
+        self.assertEqual(os.path.dirname(os.path.abspath(path)), os.path.join(self.repo, "docs", "reviews"))
+        code, out = self.check(path)
+        self.assertIn("NOTE  the report is not in analysis/fmea/", out)
+
+    def test_folder_setting_and_title(self):
+        cwd = os.path.join(self.repo, "src")
+        code, out = run(SUMMARY_REPORT, ["new", "summary", "--title", "Shop"], cwd)
+        self.assertEqual(code, 0, out)
+        path = os.path.join(cwd, out.strip())
+        self.assertEqual(os.path.basename(path), "%s-summary.md" % TODAY)
+        self.assertEqual(os.path.dirname(os.path.abspath(path)), os.path.join(self.repo, "analysis", "summary"))
+        with open(path, encoding="utf-8") as f:
+            text = f.read()
+        self.assertIn("# Analysis summary: Shop", text)
+        self.assertIn("## Most critical", text)
+        code, out = run(SUMMARY_REPORT, ["new", "workloop fmea", "--bare"], cwd)
+        self.assertEqual(code, 0, out)
+        self.assertTrue(out.strip().endswith("%s-workloop-fmea.md" % TODAY), out)
+        code, out = run(SUMMARY_REPORT, ["check", path], self.repo)
+        self.assertNotIn("NOTE", out)
 
     def test_empty_skeleton_fails_and_filled_report_passes(self):
         path = self.new("Checkout")
