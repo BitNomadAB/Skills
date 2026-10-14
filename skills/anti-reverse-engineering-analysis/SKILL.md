@@ -66,6 +66,20 @@ an attacker. Obfuscation is never a fix on its own.
    current date from the environment; do not invent it.
 5. If you cannot create files, give the report in your response and say that it
    could not be saved.
+6. If Python 3 is available (the command may be `python3`, `python` or `py`),
+   use `scripts/report.py` in this skill's folder, with the repository being
+   analyzed as the working directory:
+   - After defining the scope (workflow step 2), `report.py new "<scope>"`
+     creates the report with the date from the system clock, a free file name
+     and the headings of **Report template**, and prints its path. Add
+     `--dir <folder>` if the repository's instructions set another folder, or
+     `--bare` for only the date line if they set another template or language.
+   - After writing, `report.py check <report-path>` checks the date line,
+     missing or empty sections and anything that looks like a secret or token.
+     Add `--no-sections` when the repository's own template or language
+     applies. Fix every `FAIL` line and run it again.
+
+   Without Python, apply the same rules and checks by hand.
 
 ## Workflow
 
@@ -119,6 +133,15 @@ Prefer evidence over configuration: if you can build the production client
 locally without side effects, build it and search the output. Otherwise read the
 production build configuration and say that the output was not inspected.
 
+If Python 3 is available, run `scripts/scan_build.py <build-output>` from this
+skill's folder on each build, package (APK, IPA, JAR, ZIP) or device image in
+scope. It lists source maps, keys and tokens, internal, test and local hosts,
+private addresses, staff and admin paths and code files, and server-only files,
+without printing secrets in full. Add `--forbid "<text>"` for names that must
+not ship, such as unreleased features or internal code names found in step 2.
+Treat every hit as a candidate to check in step 4. A clean scan covers only the
+patterns that `--list-rules` shows, so still work through the whole checklist.
+
 ### 4. Check each surface
 
 Use the checklist below. For every surface, write down the result before moving
@@ -141,8 +164,9 @@ needing confirmation first. See **Refactoring plan**. Do not implement it.
 
 ### 7. Save the report and summarize
 
-Save the report as described in **Report output**. Tell the user the number of
-findings per severity, the three most important, and the path to the report.
+Save the report as described in **Report output**, and run the report check if
+the script is available. Tell the user the number of findings per severity, the
+three most important, and the path to the report.
 
 ## Checklist
 
@@ -296,7 +320,11 @@ For each slice write:
   login, registration and password reset give the same answer and similar
   timing for known and unknown accounts; a test of response headers; a test
   that a client build contains no server-only files. A fix without a guard
-  is not done.
+  is not done. For findings in shipped code, propose `scripts/scan_build.py`
+  from this skill as that build check: copy it into the repository and run it
+  on the build output with `--forbid` for each text that must not return and
+  `--allow` for accepted hits. It exits with code 1 when a SECRET or LEAK hit
+  is found.
 - **Size:** S, M or L, and what makes it so.
 - **Risk:** what could break for users or other systems, and how to roll out.
 - **Done when:** observable criteria someone else can check.

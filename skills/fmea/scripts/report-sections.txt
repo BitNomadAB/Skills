@@ -1,0 +1,7 @@
+# Required report headings, one per line, in the order they should appear.
+# They match the sections under "Expected result" in SKILL.md.
+Scope and method
+FMEA table
+Priorities
+Recommended actions
+Assumptions and open questions

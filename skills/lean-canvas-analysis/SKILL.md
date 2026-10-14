@@ -101,10 +101,14 @@ For each block, record the hypothesis, supporting evidence, status or confidence
 - Name the report `<YYYY-MM-DD>-<topic-slug>.md`. Never overwrite an existing report; add a numeric suffix if needed.
 - The report's first line must be the date the analysis was performed, formatted `YYYY-MM-DD`. Use the current date from the environment or a reliable clock; do not invent it.
 - If file creation is unavailable, provide the report in the response and state that it could not be saved.
+- **Helper script (optional):** if Python 3 is available (the command may be `python3`, `python` or `py`), use `scripts/report.py` in this skill's folder, with the repository being analyzed as the working directory:
+  - Before analysis, `report.py new "<topic>"` creates the report with the date from the system clock, a free file name and the headings from **Expected result**, and prints its path. Write the report into that file.
+  - After writing, `report.py check <report-path>` checks the date line, missing or empty sections and anything that looks like a secret or token. Fix every `FAIL` line and run it again.
+  - Without Python, apply the rules above by hand and check the same things yourself before finishing.
 
 ## Expected result
 
-Provide a concise analysis with these sections, omitting a section only when it is not applicable and explaining why:
+Provide a concise analysis with these sections, using each bold name as a heading. If a section does not apply, keep its heading and explain why under it:
 
 1. **Venture and decision:** stage, market, canvas status, and decision to inform.
 2. **Lean Canvas:** all nine blocks, with assumptions and unknowns clearly marked.

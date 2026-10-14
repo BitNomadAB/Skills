@@ -1,0 +1,8 @@
+# Required report headings, one per line, in the order they should appear.
+# They match the sections under "Expected result" in SKILL.md.
+Decision or situation
+Evidence and perspectives
+Context assessment
+Recommended response
+Reassessment
+Open questions

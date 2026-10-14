@@ -34,12 +34,21 @@ skills/
 templates/
 	skill/
 		SKILL.md            # Starter template for new skills
+		scripts/            # Shared report helper, copied into every skill
+tools/                  # Checks and tests for this repository
 CONTRIBUTING.md         # Authoring and portability rules
 ```
 
 Keep each skill self-contained. Add optional folders only when a skill needs them, and keep its `SKILL.md` as the clear entry point.
 
 Every completed analysis is saved as a dated Markdown report under `analysis/<skill-name>/` in the repository being analyzed. The report's first line is the analysis date in `YYYY-MM-DD` format.
+
+## Helper scripts
+
+Some steps are mechanical and give the same answer every time, so the skills include small Python 3 scripts for them. The scripts use only the standard library. They are optional: without Python, the agent follows the same steps from `SKILL.md`.
+
+- `scripts/report.py` in every skill creates the dated report file with the right headings and checks the finished report for a wrong date, missing or empty sections, and anything that looks like a secret.
+- `scripts/scan_build.py` in Anti-Reverse-Engineering Analysis searches a built client or package for source maps, keys and tokens, internal host names, staff and admin paths and server-only files. It can also run as a check in a build.
 
 ## Using a skill
 

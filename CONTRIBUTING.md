@@ -29,6 +29,16 @@ Skills are instructions for agents working in an unfamiliar repository. They sho
 - The report's first line must be the date the analysis was performed, in ISO format `YYYY-MM-DD`. Use the current date supplied by the environment or a reliable clock, not a file timestamp. Do not invent a date.
 - If the agent cannot create files in the repository, provide the report in the response and state that it could not be saved.
 - Keep the report within the skill's stated scope. Creating a report does not authorize unrelated changes to the product or repository.
+- Give each analysis skill the shared helper `scripts/report.py` and a `scripts/report-sections.txt` that lists the bold section names from **Expected result**, one per line. The helper creates the dated report file and checks the finished report. The skill must still describe the same rules in words, so it works without Python.
+- `report.py` is identical in every skill. Edit only `templates/skill/scripts/report.py`, then run `python tools/check_skills.py --fix` to copy it to all skills.
+
+## Helper scripts
+
+- Write scripts in Python 3.8 or later using only the standard library, so they run wherever Python does. Describe each script's usage at the top of the file and in `SKILL.md`, with paths relative to the skill folder.
+- A script reads the repository and writes only what the skill says it creates. No network access.
+- Never print a secret in full; show a short prefix and the length.
+- Use exit code 0 for OK, 1 for problems found and 2 for usage errors, so a script can also run as a check in a build.
+- Before committing, run `python tools/check_skills.py` and `python tools/test_scripts.py`. Add tests for new script behavior to `tools/test_scripts.py`, and build fake credentials at run time so the repository never contains strings that secret scanners flag.
 
 ## Package shape
 
@@ -51,3 +61,4 @@ Use lowercase, hyphen-separated folder names. Keep the package easy to copy as a
 - Can a user copy the whole skill folder and understand any dependencies?
 - Does the skill say how to validate its work and report limitations?
 - Does every completed analysis save a dated report under `analysis/<skill-name>/`, with the date on its first line?
+- Do `scripts/report-sections.txt` and **Expected result** list the same sections, and do `python tools/check_skills.py` and `python tools/test_scripts.py` pass?

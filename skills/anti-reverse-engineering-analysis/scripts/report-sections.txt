@@ -1,0 +1,9 @@
+# Required report headings, one per line, in the order they should appear.
+# They match the sections under "Report template" in SKILL.md.
+Scope
+Product and core value
+Exposure map
+Findings
+Clean areas
+Refactoring plan
+Open questions

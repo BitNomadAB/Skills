@@ -1,0 +1,8 @@
+# Required report headings, one per line, in the order they should appear.
+# They match the sections under "Expected result" in SKILL.md.
+Canvas scope
+Business Model Canvas
+Evidence and confidence
+Coherence and gaps
+Priority assumptions
+Validation actions

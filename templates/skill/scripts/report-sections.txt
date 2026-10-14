@@ -1,0 +1,5 @@
+# Required report headings, one per line, in the order they should appear.
+# Use the same names as the sections listed under "Expected result" in SKILL.md.
+# report.py writes them into new reports and checks that they exist.
+<First section heading>
+<Second section heading>
