@@ -28,9 +28,20 @@ The framework evaluates an industry's structure. It does not by itself predict a
 - Define the focal industry or market, product category, customer group, geography, value-chain position, and time horizon. State meaningful boundaries and exclusions.
 - Identify the focal perspective: for example, an entrant, incumbent, supplier, buyer, or investor. A force can affect parties differently.
 - Treat repository evidence as information about the focal organization, not sufficient proof of market-wide conditions. Use credible, current industry sources when available and state their date and scope.
-- Mark important claims as **observed**, **source-reported**, **inferred**, or **unknown**. Do not invent market shares, competitor behavior, switching costs, margins, or growth rates.
+- Mark important claims as **observed**, **source-reported** (from documents you were given), **external source** (from the web; see **External sources**), **inferred**, or **unknown**. Do not invent market shares, competitor behavior, switching costs, margins, or growth rates.
 - Use only tools and sources available in the current environment. If current external evidence cannot be accessed, provide a provisional analysis and list the evidence needed.
 - Analyze the industry structure rather than rating the focal company. Do not modify code or business operations unless separately requested. Always save a report according to **Report output**.
+
+## External sources
+
+Use this when you can search or read the web. Without web access, mark the claim **unknown** and list the searches a person should run among the open questions or evidence gaps.
+
+- **Purpose:** search only to support or challenge a claim this analysis needs, for example about competitors, potential entrants, suppliers, substitutes, buyers' alternatives, regulation, market shares and price levels. Do not use web sources for the focal organization's own customers and costs, which need its own data.
+- **Confidentiality:** what you type into a search leaves the machine. Never put code, secrets, internal names, unreleased product or feature names, or customer data into a search. Search for the industry, the problem and public company names, not for what makes this product unique.
+- **No contact with the product's own systems:** do not open the product's live services or administration pages. Reading public pages about other companies is fine.
+- **Label:** a claim based on a web page is **external source**, never observed. What a company says about itself (marketing, press releases, pricing pages) is that company's claim, not a fact about the market.
+- **Quality:** prefer primary sources: regulators and official statistics, annual reports and filings, official documentation. A consequential claim, such as market size, market share, a regulation or a competitor's price, needs two independent sources; with only one, mark it uncertain. Do not present an old or undated source as current. When sources disagree, report both.
+- **Record every source** in the **Sources** section as a table row: ID (S1, S2, ...), title, publisher, link, publication date (or "undated"), date read (YYYY-MM-DD), and what it supports. Refer to sources by ID in the other sections, and do not quote long passages.
 
 ## Workflow
 
@@ -95,13 +106,23 @@ For each force, describe its current pressure on the focal industry, the main dr
 
 Provide a concise analysis with these sections, using each bold name as a heading. If a section does not apply, keep its heading and explain why under it:
 
-1. **Scope and strategic question:** industry definition, focal perspective, geography, value-chain position, and time horizon.
-2. **Five-forces assessment:** force, pressure level if supportable, drivers, evidence, confidence, and implications.
-3. **Overall structure:** how the forces interact and what they imply for industry value capture.
-4. **Strategic implications:** options relevant to the focal decision, with rationale and tradeoffs.
-5. **Evidence gaps and change drivers:** what remains unknown and what could change the assessment.
+1. **At a glance:** the count line and at most three key points, as described below.
+2. **Scope and strategic question:** industry definition, focal perspective, geography, value-chain position, and time horizon.
+3. **Five-forces assessment:** force, pressure level if supportable, drivers, evidence, confidence, and implications.
+4. **Overall structure:** how the forces interact and what they imply for industry value capture.
+5. **Strategic implications:** options relevant to the focal decision, with rationale and tradeoffs.
+6. **Evidence gaps and change drivers:** what remains unknown and what could change the assessment.
+7. **Sources:** the source table described under **External sources**, or `N/A - <why no external sources were used>`.
 
 Use a comparison table when it remains readable. Cite source names, dates, and links or repository paths where available. Make clear when findings are provisional because evidence is incomplete or stale.
+
+**At a glance** comes first and must be readable in under a minute:
+
+- The first line is the count line: `High pressure: <forces, or none> · Uncertain: <forces, or none> · N strategic implications`. Count only what the sections below record.
+- Then at most three list items, taken from the top of the report's own priorities. Each item is one plain sentence: what is at stake, for whom, and what is needed, without method terms. After the sentence, in parentheses: the report's own priority or label, the evidence label (for example observed, inferred or unknown), and the ID or heading where the details are.
+- State nothing in At a glance that the sections below do not support. Do not raise certainty, add scores or drop an evidence label to make it shorter.
+
+**Reply in chat:** after saving and checking the report, reply with the report path and the **At a glance** section as written in the file. Add only what the user must know beyond that: a check that still fails, a file that could not be saved, or evidence that could not be reached. Do not paste other sections into the chat.
 
 ## Boundaries
 

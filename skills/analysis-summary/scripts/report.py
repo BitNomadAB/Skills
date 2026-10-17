@@ -20,11 +20,14 @@ new    Creates analysis/<skill-name>/<YYYY-MM-DD>-<topic-slug>.md in the
 
 check  Fails when the first line is not today's date (or --date), when the
        date in the file name differs from the first line, when a required
-       section heading is missing or a section is empty, or when a line looks
-       like a secret or token.
+       section heading is missing or a section is empty, when a section says
+       only "N/A" without a reason, when a web link outside code has no date
+       (YYYY-MM-DD) on its line, or when a line looks like a secret or token. If report-sections.txt lists "At a glance" first, it must also
+       be the first section and have at most three list items.
          --date YYYY-MM-DD  the day the analysis was performed, if not today
-         --no-sections      skip the section checks, for example when the
-                            repository prescribes its own template or language
+         --no-sections      skip the required-section and At a glance checks,
+                            for example when the repository prescribes its own
+                            template or language
 
 The skill name and title are read from ../SKILL.md. Required sections are read
 from report-sections.txt next to this script, one heading per line. A line
@@ -49,6 +52,14 @@ SECTIONS_FILE = os.path.join(SCRIPT_DIR, "report-sections.txt")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.*?)\s*#*\s*$")
 FENCE_RE = re.compile(r"^\s*(```|~~~)")
+GLANCE = "at a glance"
+MAX_GLANCE_ITEMS = 3
+LIST_ITEM_RE = re.compile("^\\s*(?:[-*+·•]|\\d+[.)])\\s+")
+URL_RE = re.compile(r"\bhttps?://", re.IGNORECASE)
+INLINE_CODE_RE = re.compile(r"`[^`]*`")
+ANY_DATE_RE = re.compile(r"\b\d{4}-\d{2}-\d{2}\b")
+NA_RE = re.compile(r"^n/?a\b", re.IGNORECASE)
+NA_REASON_RE = re.compile("^n/?a\\s*[-‐‑‒–—−:]\\s*\\S", re.IGNORECASE)
 
 # Credentials that must never be copied into a report. Only the pattern name
 # is printed, never the matched text.
@@ -245,17 +256,50 @@ def cmd_check(args):
             if not any(h == wanted or h.startswith(wanted + " ") for h in found):
                 problems.append('missing section heading "%s"' % section)
 
-    for index, (line_no, level, h_text) in enumerate(headings):
-        if level < 2:
-            continue
+    def body_of(index):
+        """Non-blank lines under a heading, up to the next heading of the same or a higher level."""
+        line_no, level, _ = headings[index]
         end = len(lines)
         for other_line, other_level, _ in headings[index + 1:]:
             if other_level <= level:
                 end = other_line
                 break
-        if not any(line.strip() for line in lines[line_no + 1:end]):
+        return [line.strip() for line in lines[line_no + 1:end] if line.strip()]
+
+    for index, (line_no, level, h_text) in enumerate(headings):
+        if level < 2:
+            continue
+        body = body_of(index)
+        if not body:
             problems.append('section "%s" on line %d is empty. Fill it in, or write why it does not apply'
                             % (h_text, line_no + 1))
+        elif len(body) == 1 and NA_RE.match(body[0]) and not NA_REASON_RE.match(body[0]):
+            problems.append('section "%s" on line %d says N/A without a reason. Write "N/A - <why it does '
+                            'not apply>"' % (h_text, line_no + 1))
+
+    # When the skill lists "At a glance" first, it must be the first section and stay short.
+    if not args.no_sections and sections and normalize(sections[0]) == GLANCE:
+        positions = [i for i, (_, level, _) in enumerate(headings) if level >= 2]
+        glance = [i for i in positions
+                  if normalize(headings[i][2]) == GLANCE or normalize(headings[i][2]).startswith(GLANCE + " ")]
+        if glance:
+            if glance[0] != positions[0]:
+                problems.append('"%s" must be the first section of the report' % sections[0])
+            items = [line for line in body_of(glance[0]) if LIST_ITEM_RE.match(line)]
+            if len(items) > MAX_GLANCE_ITEMS:
+                problems.append('"%s" has %d list items; keep at most %d and move the rest to the sections below'
+                                % (sections[0], len(items), MAX_GLANCE_ITEMS))
+
+    # Every web link outside code must carry a date, so a reader can judge how current the source is.
+    in_fence = False
+    for line_no, line in enumerate(lines, 1):
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+            continue
+        prose = INLINE_CODE_RE.sub("", line)
+        if not in_fence and URL_RE.search(prose) and not ANY_DATE_RE.search(prose):
+            problems.append("line %d has a web link without a date. Add the publication date or the date you "
+                            "read it (YYYY-MM-DD), or put the link in backticks if it is not a source" % line_no)
 
     for line_no, line in enumerate(lines, 1):
         for secret_name, secret_re in SECRET_RES:

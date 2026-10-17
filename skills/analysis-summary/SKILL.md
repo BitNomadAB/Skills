@@ -72,7 +72,9 @@ Classify each analysis folder:
 
 ### 2. Read each report in its own order
 
-Read each report in full. For each technical report, list its actionable items in the order the report gives them:
+Read each report in full. A report's **At a glance** section is a pointer, not a source: take every item from the sections below it.
+
+If a technical report has a findings table with an ID column, use its rows as the items, in the report's order, and take the details for each row from the report's own section for that ID. Otherwise, list its actionable items in the order the report gives them:
 
 | Analysis | Item | Order |
 | --- | --- | --- |
@@ -83,7 +85,7 @@ Read each report in full. For each technical report, list its actionable items i
 
 For each item record the report's own priority label, the evidence label (VERIFIED, PLAUSIBLE, observed, inferred or unknown), the code locations, the effect, the test or guard the report asks for, and how to tell that it is done.
 
-For each business report, list in its own order: the riskiest assumptions, the proposed experiments or next steps, and the main strategic implications. For Cynefin, record the assessed context and the recommended way to act.
+For each business report, list in its own order: the riskiest assumptions, the proposed experiments or next steps, and the main strategic implications. When the report gives IDs (such as A1 for an assumption or E1 for an experiment), keep them, together with each assumption's evidence status. Keep the label **external source** on claims that rest on web sources, and do not search the web yourself. For Cynefin, record the assessed context and the recommended way to act.
 
 When two analyses describe the same problem (same cause or same code location), note "also found by" on both. Do not merge them and do not move either one in its list.
 
@@ -114,7 +116,7 @@ Write the sections listed under **Expected result**, in that order. The reader i
 - For each business analysis, give one or two bullets: its riskiest assumption and the next step it proposes.
 - Keep the whole section to at most about fifteen bullets.
 
-**Top lists per analysis** has one subsection per technical analysis with a table of at most ten items in the report's own order: number, finding in one sentence, priority in the report, evidence, where, work loop task, and "also found by" when it applies. Say how many more items the report has.
+**Top lists per analysis** has one subsection per technical analysis with a table of at most five items in the report's own order: number, finding in one sentence, priority in the report, evidence, where, work loop task, and "also found by" when it applies. Say how many more items the report has.
 
 **Business summary** has one subsection per business or decision-context analysis, with three to five bullets in that report's own order. If a technical finding directly threatens a business claim and both reports support it (for example a finding that lets a competitor copy the product's core rules, against a claimed unfair advantage), add at most three bullets about it at the end.
 

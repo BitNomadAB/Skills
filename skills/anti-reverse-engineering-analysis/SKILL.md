@@ -81,6 +81,24 @@ an attacker. Obfuscation is never a fix on its own.
 
    Without Python, apply the same rules and checks by hand.
 
+## External documentation
+
+- **Purpose:** if you can read the web, you may look up official documentation
+  or a vendor's published material to support a claim this analysis needs, for
+  example whether a key type is meant to be public, or what a framework includes
+  in a production build. Forums and blog posts are not evidence.
+- **Confidentiality:** what you type into a search leaves the machine. Never put
+  code, secrets, internal names, unreleased product or feature names, or
+  customer data into a search. Search for the vendor, product or standard by its
+  public name.
+- **No contact with the product's own systems:** do not open the product's live
+  services or administration pages.
+- **Label and record:** label such a claim **external source**, never observed,
+  and list each source in a **Sources** section at the end of the report: ID
+  (S1, S2, ...), title, publisher, link, publication date (or "undated"), date
+  read (YYYY-MM-DD), and what it supports.
+- **Without web access:** mark the claim **unknown**.
+
 ## Workflow
 
 ### 1. Check whether you may run the review
@@ -165,8 +183,24 @@ needing confirmation first. See **Refactoring plan**. Do not implement it.
 ### 7. Save the report and summarize
 
 Save the report as described in **Report output**, and run the report check if
-the script is available. Tell the user the number of findings per severity, the
-three most important, and the path to the report.
+the script is available.
+
+Write **At a glance** last, from the finished report, and keep it first in the
+file:
+
+- The first line is the count line:
+  `N findings · CRITICAL a · HIGH b · MEDIUM c · LOW d · VERIFIED v · PLAUSIBLE p`.
+- Then at most three list items, the most severe findings in report order. Each
+  item is one plain sentence: what an outsider can do, to whom, and what is
+  needed, without method terms. After it, in parentheses: severity, verdict and
+  finding ID, for example `(CRITICAL · VERIFIED · CRITICAL-1)`.
+- State nothing there that the findings below do not support. Never drop a
+  PLAUSIBLE label or raise a severity to make it shorter.
+
+**Reply in chat** with the report path and the **At a glance** section as
+written in the file. Add only what the user must know beyond that: a check that
+still fails, a file that could not be saved, or evidence that could not be
+reached. Do not paste other sections into the chat.
 
 ## Checklist
 
@@ -336,6 +370,10 @@ and convert it only if the user asks.
 
 ## Report template
 
+The table under **Findings** is an index with one row per finding, using the
+same ID as the finding's own subsection. The subsections keep the full outsider
+scenario and verdict; the table does not replace them.
+
 ```markdown
 YYYY-MM-DD
 
@@ -343,6 +381,12 @@ YYYY-MM-DD
 
 Code state: <commit or "uncommitted">. Code author: <model family or person,
 or unknown>. Reviewer: <model family, agent, model id>.
+
+## At a glance
+
+N findings · CRITICAL a · HIGH b · MEDIUM c · LOW d · VERIFIED v · PLAUSIBLE p
+
+- <plain sentence> (<SEVERITY> · <VERDICT> · <ID>)
 
 ## Scope
 
@@ -358,6 +402,9 @@ or unknown>. Reviewer: <model family, agent, model id>.
 | --- | --- | --- | --- |
 
 ## Findings
+
+| ID | Severity | Category | Finding in one sentence | Location | Verdict | Slice |
+| --- | --- | --- | --- | --- | --- | --- |
 
 ### <SEVERITY>-<n> [<CATEGORY>]: <one sentence>
 

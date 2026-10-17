@@ -27,11 +27,22 @@ A Lean Canvas is a set of hypotheses, not evidence that customers want the produ
 
 - Confirm the venture or product, stage, target geography or market, decision to inform, and whether the canvas represents a current hypothesis or a proposed change.
 - Treat repository content as evidence of implemented or intended functionality, not as proof of customer value or commercial outcomes.
-- Mark claims as **observed**, **customer-reported**, **measured**, **inferred**, or **unknown**. Include source, date, and relevant sample or context when available.
+- Mark claims as **observed**, **customer-reported**, **measured**, **external source** (from the web; see **External sources**), **inferred**, or **unknown**. Include source, date, and relevant sample or context when available.
 - Do not invent customer quotes, market facts, conversion rates, prices, costs, metrics, or validation results. Leave gaps explicit and ask focused questions where needed.
 - Create separate canvases when products, segments, geographies, or materially different business-model hypotheses should not be combined.
 - Use only tools available in the current environment. Never assume a particular agent, operating system, shell, or repository layout.
 - Treat the task as analysis. Do not change product code, pricing, or business operations unless the user separately requests implementation. Always save a report according to **Report output**.
+
+## External sources
+
+Use this when you can search or read the web. Without web access, mark the claim **unknown** and list the searches a person should run among the open questions or evidence gaps.
+
+- **Purpose:** search only to support or challenge a claim this analysis needs, for example about existing alternatives and competitors, their prices and channels, and whether the problem is discussed publicly. Do not use web sources for demand, willingness to pay or retention, which only customer evidence can show. Public discussion of a problem is not proof that this segment will pay to solve it.
+- **Confidentiality:** what you type into a search leaves the machine. Never put code, secrets, internal names, unreleased product or feature names, or customer data into a search. Search for the industry, the problem and public company names, not for what makes this product unique.
+- **No contact with the product's own systems:** do not open the product's live services or administration pages. Reading public pages about other companies is fine.
+- **Label:** a claim based on a web page is **external source**, never observed. What a company says about itself (marketing, press releases, pricing pages) is that company's claim, not a fact about the market.
+- **Quality:** prefer primary sources: regulators and official statistics, annual reports and filings, official documentation. A consequential claim, such as market size, market share, a regulation or a competitor's price, needs two independent sources; with only one, mark it uncertain. Do not present an old or undated source as current. When sources disagree, report both.
+- **Record every source** in the **Sources** section as a table row: ID (S1, S2, ...), title, publisher, link, publication date (or "undated"), date read (YYYY-MM-DD), and what it supports. Refer to sources by ID in the other sections, and do not quote long passages.
 
 ## Workflow
 
@@ -72,7 +83,7 @@ For each block, record the hypothesis, supporting evidence, status or confidence
 2. Assess each assumption qualitatively by impact and uncertainty, using available evidence. Explain the basis and avoid unsupported numeric scores.
 3. Choose the most consequential uncertainty that can be tested with a practical, proportionate experiment.
 4. For each proposed experiment, state:
-   - the assumption being tested;
+   - the assumption being tested, by its ID;
    - the target segment and recruitment method;
    - the test method and what participants will actually do;
    - the evidence or metric to observe;
@@ -110,15 +121,25 @@ For each block, record the hypothesis, supporting evidence, status or confidence
 
 Provide a concise analysis with these sections, using each bold name as a heading. If a section does not apply, keep its heading and explain why under it:
 
-1. **Venture and decision:** stage, market, canvas status, and decision to inform.
-2. **Lean Canvas:** all nine blocks, with assumptions and unknowns clearly marked.
-3. **Evidence quality:** sources, dates, sample/context, and whether claims are observed, customer-reported, measured, inferred, or unknown.
-4. **Model logic:** the most important connections, contradictions, and dependencies between blocks.
-5. **Riskiest assumptions:** prioritized by impact and uncertainty, with reasoning.
-6. **Next experiments:** test design, evidence sought, decision rule, and relevant constraints.
-7. **Open questions:** customer, market, operational, or financial information still needed.
+1. **At a glance:** the count line and at most three key points, as described below.
+2. **Venture and decision:** stage, market, canvas status, and decision to inform.
+3. **Lean Canvas:** all nine blocks, with assumptions and unknowns clearly marked.
+4. **Evidence quality:** sources, dates, sample/context, and whether claims are observed, customer-reported, measured, external source, inferred, or unknown.
+5. **Model logic:** the most important connections, contradictions, and dependencies between blocks.
+6. **Riskiest assumptions:** a table with one row per assumption, in priority order: ID (A1, A2, ...), the assumption in one sentence, canvas block, evidence status (observed, customer-reported, measured, external source, inferred or unknown), impact, uncertainty, and the reasoning in one line. State impact and uncertainty in words; do not add numeric scores. If an earlier report exists, keep its IDs for the same assumptions and add a column saying whether each is still open, supported or contradicted, citing the new evidence.
+7. **Next experiments:** a table with one row per experiment: ID (E1, E2, ...), the assumption IDs it tests, method, evidence sought, decision rule, constraints, and status (proposed until results are collected).
+8. **Open questions:** customer, market, operational, or financial information still needed.
+9. **Sources:** the source table described under **External sources**, or `N/A - <why no external sources were used>`.
 
 Use a compact canvas table when it remains readable. Include relevant repository paths or source identifiers. For a revised canvas, state what changed and which new evidence caused the change.
+
+**At a glance** comes first and must be readable in under a minute:
+
+- The first line is the count line: `Blocks: N observed, customer-reported or measured · N inferred · N unknown · N riskiest assumptions · N next experiments`, counted by the status of each block's main claim. Count only what the sections below record.
+- Then at most three list items, taken from the top of the report's own priorities. Each item is one plain sentence: what is at stake, for whom, and what is needed, without method terms. After the sentence, in parentheses: the report's own priority or label, the evidence label (for example observed, inferred or unknown), and the ID or heading where the details are.
+- State nothing in At a glance that the sections below do not support. Do not raise certainty, add scores or drop an evidence label to make it shorter.
+
+**Reply in chat:** after saving and checking the report, reply with the report path and the **At a glance** section as written in the file. Add only what the user must know beyond that: a check that still fails, a file that could not be saved, or evidence that could not be reached. Do not paste other sections into the chat.
 
 ## Boundaries
 

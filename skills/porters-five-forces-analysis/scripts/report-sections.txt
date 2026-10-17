@@ -1,7 +1,9 @@
 # Required report headings, one per line, in the order they should appear.
 # They match the sections under "Expected result" in SKILL.md.
+At a glance
 Scope and strategic question
 Five-forces assessment
 Overall structure
 Strategic implications
 Evidence gaps and change drivers
+Sources

@@ -29,6 +29,14 @@ This skill guides an agent-assisted analysis. It does not replace a facilitated 
 - Do not invent business goals, quality targets, stakeholder priorities, operational conditions, or measurements. Ask focused questions when needed; otherwise record the gap and its effect on confidence.
 - Use only tools available in the current environment. Never assume a particular agent, operating system, shell, diagramming tool, or repository layout.
 
+## External documentation
+
+- **Purpose:** if you can read the web, you may look up official documentation or a vendor's published material to support a claim this analysis needs, for example a provider's documented limits, quotas or availability commitments that a scenario's response measure depends on. Forums and blog posts are not evidence.
+- **Confidentiality:** what you type into a search leaves the machine. Never put code, secrets, internal names, unreleased product or feature names, or customer data into a search. Search for the vendor, product or standard by its public name.
+- **No contact with the product's own systems:** do not open the product's live services or administration pages.
+- **Label and record:** label such a claim **external source**, never observed, and list each source in a **Sources** section at the end of the report: ID (S1, S2, ...), title, publisher, link, publication date (or "undated"), date read (YYYY-MM-DD), and what it supports.
+- **Without web access:** mark the claim **unknown**.
+
 ## Workflow
 
 ### 1. Establish scope and evidence
@@ -104,15 +112,23 @@ For each finding, cite the relevant repository evidence or stakeholder input, ex
 
 Provide a concise evaluation with these sections, using each bold name as a heading. If a section does not apply, keep its heading and explain why under it:
 
-1. **Executive summary:** scope, overall assessment, and most important findings.
+1. **At a glance:** the count line and at most three key points, as described below.
 2. **Scope and evidence:** system boundary, sources inspected, participants, assumptions, and limitations.
 3. **Business drivers and utility tree:** goals, selected quality attributes, scenarios, and priority basis.
 4. **Architecture and approaches:** relevant design decisions with evidence.
 5. **Scenario analysis:** expected response, response measure, reasoning, and evidence for each prioritized scenario.
-6. **Findings:** risks, non-risks, sensitivity points, tradeoff points, and related risk themes.
-7. **Recommendations and open questions:** actionable next steps and what stakeholders must confirm.
+6. **Findings:** first a table with one row per finding: ID (F1, F2, ...), type (risk, non-risk, sensitivity point or tradeoff point), the finding in one sentence, affected scenarios and quality attributes, evidence, and confidence. Then reasoning per finding where the table is not enough, and risk themes listing the IDs they group.
+7. **Recommendations and open questions:** actionable next steps, each referring to the finding IDs it addresses, and what stakeholders must confirm.
 
 Use tables when they improve comparison. Keep observations, interpretations, and recommendations distinguishable. Include file paths or other source identifiers for repository evidence.
+
+**At a glance** comes first and must be readable in under a minute:
+
+- The first line is the count line: `N risks · N sensitivity points · N tradeoff points · N non-risks · provisional: yes or no` (provisional means the priorities were not confirmed by stakeholders). Count only what the sections below record.
+- Then at most three list items, taken from the top of the report's own priorities. Each item is one plain sentence: what is at stake, for whom, and what is needed, without method terms. After the sentence, in parentheses: the report's own priority or label, the evidence label (for example observed, inferred or unknown), and the ID or heading where the details are.
+- State nothing in At a glance that the sections below do not support. Do not raise certainty, add scores or drop an evidence label to make it shorter.
+
+**Reply in chat:** after saving and checking the report, reply with the report path and the **At a glance** section as written in the file. Add only what the user must know beyond that: a check that still fails, a file that could not be saved, or evidence that could not be reached. Do not paste other sections into the chat.
 
 ## Boundaries
 

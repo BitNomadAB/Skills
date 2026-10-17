@@ -25,12 +25,23 @@ The BMC is a structured description and discussion aid. A completed canvas is no
 ## Scope and assumptions
 
 - Confirm whether the canvas describes the **current**, **proposed**, or **target** model, for which organization/product, market, geography, and time period.
-- Treat repository evidence as evidence of implementation or stated intent, not automatic proof of commercial reality. Mark each material claim as **observed**, **stakeholder-reported**, **inferred**, or **unknown**, and include its source where possible.
+- Treat repository evidence as evidence of implementation or stated intent, not automatic proof of commercial reality. Mark each material claim as **observed**, **stakeholder-reported**, **external source** (from the web; see **External sources**), **inferred**, or **unknown**, and include its source where possible.
 - Do not invent customers, segments, prices, conversion rates, costs, market facts, partnerships, or revenue. Use explicit unknowns and questions instead.
 - If multiple business models or materially different time horizons are in scope, create separate canvases. Do not mix current facts with a proposed future state without labeling them.
 - For nonprofits, public services, internal platforms, or other non-commercial models, adapt value and funding flows explicitly. Do not invent customer revenue just to fill a block.
 - Use only tools available in the current environment. Never assume a particular agent, operating system, shell, or repository layout.
 - Treat the task as analysis. Do not change product code, pricing, or business operations unless the user separately requests implementation. Always save a report according to **Report output**.
+
+## External sources
+
+Use this when you can search or read the web. Without web access, mark the claim **unknown** and list the searches a person should run among the open questions or evidence gaps.
+
+- **Purpose:** search only to support or challenge a claim this analysis needs, for example about partners, price benchmarks, channels and the cost of third-party services. Do not use web sources for the organization's own costs, revenue or customer behavior, which need its own data.
+- **Confidentiality:** what you type into a search leaves the machine. Never put code, secrets, internal names, unreleased product or feature names, or customer data into a search. Search for the industry, the problem and public company names, not for what makes this product unique.
+- **No contact with the product's own systems:** do not open the product's live services or administration pages. Reading public pages about other companies is fine.
+- **Label:** a claim based on a web page is **external source**, never observed. What a company says about itself (marketing, press releases, pricing pages) is that company's claim, not a fact about the market.
+- **Quality:** prefer primary sources: regulators and official statistics, annual reports and filings, official documentation. A consequential claim, such as market size, market share, a regulation or a competitor's price, needs two independent sources; with only one, mark it uncertain. Do not present an old or undated source as current. When sources disagree, report both.
+- **Record every source** in the **Sources** section as a table row: ID (S1, S2, ...), title, publisher, link, publication date (or "undated"), date read (YYYY-MM-DD), and what it supports. Refer to sources by ID in the other sections, and do not quote long passages.
 
 ## Workflow
 
@@ -69,7 +80,7 @@ For each block, summarize what is known, cite evidence, label confidence or stat
 
 1. List assumptions that are both consequential to the model and uncertain.
 2. Rank them qualitatively by impact and uncertainty, explaining the basis. Do not invent precise scores.
-3. For the most important assumptions, suggest a proportionate validation method, the evidence to collect, and a decision signal or threshold only when the user can define one.
+3. Give each assumption an ID (A1, A2, ...). For the most important assumptions, suggest a proportionate validation method, the evidence to collect, and a decision signal or threshold only when the user can define one.
 4. Separate evidence already available from experiments or research that are only proposed.
 5. State questions for customers, partners, operators, or financial owners when repository evidence cannot answer them.
 
@@ -100,14 +111,24 @@ For each block, summarize what is known, cite evidence, label confidence or stat
 
 Provide a concise analysis with these sections, using each bold name as a heading. If a section does not apply, keep its heading and explain why under it:
 
-1. **Canvas scope:** subject, audience, status, market, and time horizon.
-2. **Business Model Canvas:** all nine blocks, with unknowns clearly marked. A table is suitable when readable.
-3. **Evidence and confidence:** sources and whether claims are observed, stakeholder-reported, inferred, or unknown.
-4. **Coherence and gaps:** how the blocks connect, contradictions, dependencies, and consequential omissions.
-5. **Priority assumptions:** the most important uncertainties and why they matter.
-6. **Validation actions:** proposed research or experiments, evidence sought, and decision signals where available.
+1. **At a glance:** the count line and at most three key points, as described below.
+2. **Canvas scope:** subject, audience, status, market, and time horizon.
+3. **Business Model Canvas:** all nine blocks, with unknowns clearly marked. A table is suitable when readable.
+4. **Evidence and confidence:** sources and whether claims are observed, stakeholder-reported, external source, inferred, or unknown.
+5. **Coherence and gaps:** how the blocks connect, contradictions, dependencies, and consequential omissions.
+6. **Priority assumptions:** a table with one row per assumption, in priority order: ID (A1, A2, ...), the assumption in one sentence, the building blocks it affects, evidence status (observed, stakeholder-reported, external source, inferred or unknown), impact, uncertainty, and why it matters in one line. State impact and uncertainty in words; do not add numeric scores. If an earlier report exists, keep its IDs for the same assumptions and add a column saying whether each is still open, supported or contradicted, citing the new evidence.
+7. **Validation actions:** a table with one row per action: ID (V1, V2, ...), the assumption IDs it addresses, method, evidence sought, decision signal where the user can define one, and status (proposed until results are collected).
+8. **Sources:** the source table described under **External sources**, or `N/A - <why no external sources were used>`.
 
 When comparing models, provide one canvas per model or time horizon and then compare the differences. Include relevant repository paths or source identifiers. Do not imply that the canvas itself validates the business.
+
+**At a glance** comes first and must be readable in under a minute:
+
+- The first line is the count line: `Blocks: N observed or stakeholder-reported · N inferred · N unknown · N priority assumptions`, counted by the status of each block's main claim. Count only what the sections below record.
+- Then at most three list items, taken from the top of the report's own priorities. Each item is one plain sentence: what is at stake, for whom, and what is needed, without method terms. After the sentence, in parentheses: the report's own priority or label, the evidence label (for example observed, inferred or unknown), and the ID or heading where the details are.
+- State nothing in At a glance that the sections below do not support. Do not raise certainty, add scores or drop an evidence label to make it shorter.
+
+**Reply in chat:** after saving and checking the report, reply with the report path and the **At a glance** section as written in the file. Add only what the user must know beyond that: a check that still fails, a file that could not be saved, or evidence that could not be reached. Do not paste other sections into the chat.
 
 ## Boundaries
 

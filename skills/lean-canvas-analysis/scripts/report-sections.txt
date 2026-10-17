@@ -1,5 +1,6 @@
 # Required report headings, one per line, in the order they should appear.
 # They match the sections under "Expected result" in SKILL.md.
+At a glance
 Venture and decision
 Lean Canvas
 Evidence quality
@@ -7,3 +8,4 @@ Model logic
 Riskiest assumptions
 Next experiments
 Open questions
+Sources

@@ -33,6 +33,14 @@ FMEA is a structured analysis, not proof that all failure modes have been found 
 - Use only tools available in the current environment. Never assume a particular agent, operating system, shell, FMEA template, or repository layout.
 - Treat the task as analysis. Do not modify production code, designs, or processes unless the user separately requests implementation. Always save a report according to **Report output**.
 
+## External documentation
+
+- **Purpose:** if you can read the web, you may look up official documentation or a vendor's published material to support a claim this analysis needs, for example a dependency's documented failure behavior or limits, or its published incident reports. Forums and blog posts are not evidence.
+- **Confidentiality:** what you type into a search leaves the machine. Never put code, secrets, internal names, unreleased product or feature names, or customer data into a search. Search for the vendor, product or standard by its public name.
+- **No contact with the product's own systems:** do not open the product's live services or administration pages.
+- **Label and record:** label such a claim **external source**, never observed, and list each source in a **Sources** section at the end of the report: ID (S1, S2, ...), title, publisher, link, publication date (or "undated"), date read (YYYY-MM-DD), and what it supports.
+- **Without web access:** mark the claim **unknown**.
+
 ## Workflow
 
 ### 1. Define the analysis
@@ -103,13 +111,22 @@ Keep cause, failure mode, and effect separate. Describe specific, actionable fai
 
 Provide a concise FMEA report with these sections, using each bold name as a heading. If a section does not apply, keep its heading and explain why under it:
 
-1. **Scope and method:** FMEA type, item/process boundary, functions, lifecycle phase, environment, and rating method.
-2. **FMEA table:** function, failure mode, effects, causes, current prevention controls, current detection controls, evidence, and ratings where justified.
-3. **Priorities:** high-severity concerns, selected action priorities or RPN method, and rationale.
-4. **Recommended actions:** action, targeted cause or control gap, expected effect, owner/status/date if known, and residual-risk plan.
-5. **Assumptions and open questions:** missing requirements, evidence, stakeholders, and complementary analyses needed.
+1. **At a glance:** the count line and at most three key points, as described below.
+2. **Scope and method:** FMEA type, item/process boundary, functions, lifecycle phase, environment, and rating method.
+3. **FMEA table:** an ID for each row (F1, F2, ...), function, failure mode, effects, causes, current prevention controls, current detection controls, evidence, and ratings where justified.
+4. **Priorities:** high-severity concerns by row ID, selected action priorities or RPN method, and rationale.
+5. **Recommended actions:** the row ID each action targets, action, targeted cause or control gap, expected effect, owner/status/date if known, and residual-risk plan. Refer to the row ID instead of repeating the failure mode.
+6. **Assumptions and open questions:** missing requirements, evidence, stakeholders, and complementary analyses needed.
 
-Include source identifiers and dates where available. Clearly separate existing controls, hypotheses, recommendations, and completed actions. Summarize the report path and the highest-priority findings to the user.
+Include source identifiers and dates where available. Clearly separate existing controls, hypotheses, recommendations, and completed actions.
+
+**At a glance** comes first and must be readable in under a minute:
+
+- The first line is the count line: `N failure modes · N high-severity concerns · N recommended actions · ratings: <rubric used, or not rated>`. Count only what the sections below record.
+- Then at most three list items, taken from the top of the report's own priorities. Each item is one plain sentence: what is at stake, for whom, and what is needed, without method terms. After the sentence, in parentheses: the report's own priority or label, the evidence label (for example observed, inferred or unknown), and the ID or heading where the details are.
+- State nothing in At a glance that the sections below do not support. Do not raise certainty, add scores or drop an evidence label to make it shorter.
+
+**Reply in chat:** after saving and checking the report, reply with the report path and the **At a glance** section as written in the file. Add only what the user must know beyond that: a check that still fails, a file that could not be saved, or evidence that could not be reached. Do not paste other sections into the chat.
 
 ## Boundaries
 

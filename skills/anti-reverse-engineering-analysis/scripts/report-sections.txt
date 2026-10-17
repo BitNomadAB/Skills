@@ -1,5 +1,6 @@
 # Required report headings, one per line, in the order they should appear.
 # They match the sections under "Report template" in SKILL.md.
+At a glance
 Scope
 Product and core value
 Exposure map

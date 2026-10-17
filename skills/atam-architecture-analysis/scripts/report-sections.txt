@@ -1,6 +1,6 @@
 # Required report headings, one per line, in the order they should appear.
 # They match the sections under "Expected result" in SKILL.md.
-Executive summary
+At a glance
 Scope and evidence
 Business drivers and utility tree
 Architecture and approaches

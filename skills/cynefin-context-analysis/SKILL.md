@@ -107,14 +107,23 @@ Some sources use older names for domains. Use **Clear**, **Complicated**, **Comp
 
 Provide a concise analysis with these sections, using each bold name as a heading. If a section does not apply, keep its heading and explain why under it:
 
-1. **Decision or situation:** scope, affected parties, desired outcome, and time horizon.
-2. **Evidence and perspectives:** observations, sources, assumptions, disagreements, and unknowns.
-3. **Context assessment:** best-supported domain or domains, causal reasoning, confidence, and plausible alternatives.
-4. **Recommended response:** domain-appropriate actions, constraints, and rationale.
-5. **Reassessment:** indicators, review point, and conditions that would change the response.
-6. **Open questions:** stakeholder input or evidence still needed.
+1. **At a glance:** the count line and at most three key points, as described below.
+2. **Decision or situation:** scope, affected parties, desired outcome, and time horizon.
+3. **Evidence and perspectives:** observations, sources, assumptions, disagreements, and unknowns.
+4. **Context assessment:** best-supported domain or domains, causal reasoning, confidence, and plausible alternatives.
+5. **Recommended response:** domain-appropriate actions, constraints, and rationale.
+6. **Reassessment:** indicators, review point, and conditions that would change the response.
+7. **Open questions:** stakeholder input or evidence still needed.
 
 For Complex contexts, include probe hypotheses, bounds, observations, and decision criteria. For Chaotic contexts, include immediate stabilization actions and how to reassess after stabilization. Do not invent measurements or stakeholder agreement.
+
+**At a glance** comes first and must be readable in under a minute:
+
+- The first line is the count line: `Context: <domain or domains, or Disorder> · confidence: <as assessed> · review point: <date or trigger>`. Count only what the sections below record.
+- Then at most three list items, taken from the top of the report's own priorities. Each item is one plain sentence: what is at stake, for whom, and what is needed, without method terms. After the sentence, in parentheses: the report's own priority or label, the evidence label (for example observed, inferred or unknown), and the ID or heading where the details are.
+- State nothing in At a glance that the sections below do not support. Do not raise certainty, add scores or drop an evidence label to make it shorter.
+
+**Reply in chat:** after saving and checking the report, reply with the report path and the **At a glance** section as written in the file. Add only what the user must know beyond that: a check that still fails, a file that could not be saved, or evidence that could not be reached. Do not paste other sections into the chat.
 
 ## Boundaries
 

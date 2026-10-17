@@ -168,6 +168,83 @@ class ReportTests(unittest.TestCase):
         self.assertIn("Stripe secret key", out)
         self.assertNotIn(STRIPE_KEY, out)
 
+    def filled_report(self):
+        path = self.new("Checkout")
+        self.fill(path)
+        with open(path, encoding="utf-8") as f:
+            return path, f.read()
+
+    def test_new_puts_at_a_glance_first(self):
+        path, text = self.filled_report()
+        self.assertLess(text.index("## At a glance"), text.index("## Scope and method"))
+        self.assertEqual(self.check(path)[0], 0)
+
+    def test_at_a_glance_must_be_first(self):
+        path, text = self.filled_report()
+        text = text.replace("## At a glance\n\nContent.\n", "")
+        text = text.replace("## Priorities", "## At a glance\n\nContent.\n\n## Priorities")
+        write(path, text)
+        code, out = self.check(path)
+        self.assertEqual(code, 1)
+        self.assertIn('"At a glance" must be the first section', out)
+
+    def test_at_a_glance_allows_three_items_not_four(self):
+        path, text = self.filled_report()
+        three = "3 findings\n\n- one (HIGH · observed · F1)\n- two\n1. three\n"
+        write(path, text.replace("## At a glance\n\nContent.", "## At a glance\n\n" + three))
+        self.assertEqual(self.check(path)[0], 0)
+        write(path, text.replace("## At a glance\n\nContent.", "## At a glance\n\n" + three + "* four\n"))
+        code, out = self.check(path)
+        self.assertEqual(code, 1)
+        self.assertIn("has 4 list items", out)
+
+    def test_missing_at_a_glance_and_no_sections(self):
+        path, text = self.filled_report()
+        write(path, text.replace("## At a glance\n\nContent.\n", ""))
+        code, out = self.check(path)
+        self.assertEqual(code, 1)
+        self.assertIn('missing section heading "At a glance"', out)
+        self.assertEqual(self.check(path, "--no-sections")[0], 0)
+
+    def test_not_applicable_needs_a_reason(self):
+        path, text = self.filled_report()
+        for line in ("N/A - no process steps in scope", "N/A – no process steps", "n/a — none in scope",
+                     "N/A: not part of this release"):
+            write(path, text.replace("## Priorities\n\nContent.", "## Priorities\n\n" + line))
+            self.assertEqual(self.check(path)[0], 0, line)
+        write(path, text.replace("## Priorities\n\nContent.", "## Priorities\n\nN/A"))
+        code, out = self.check(path)
+        self.assertEqual(code, 1)
+        self.assertIn("N/A without a reason", out)
+
+    def test_web_links_need_a_date(self):
+        path, text = self.filled_report()
+        base = text.replace("## Priorities\n\nContent.", "## Priorities\n\n%s")
+        ok = [
+            "| S1 | Market report | Agency | https://example.org/r | 2025-03-01 | read 2026-10-17 | size |",
+            "Internal host found in the bundle: `https://api.staging.example.com`",
+            "```\ncurl https://example.org/x\n```",
+        ]
+        for line in ok:
+            write(path, base % line)
+            self.assertEqual(self.check(path)[0], 0, line)
+        write(path, base % "See https://example.org/report for the market size.")
+        code, out = self.check(path)
+        self.assertEqual(code, 1)
+        self.assertIn("web link without a date", out)
+
+    def test_summary_and_work_loops_do_not_need_at_a_glance(self):
+        code, out = run(SUMMARY_REPORT, ["new", "summary"], self.repo)
+        path = os.path.join(self.repo, out.strip())
+        self.fill(path)
+        code, out = run(SUMMARY_REPORT, ["check", path], self.repo)
+        self.assertEqual(code, 0, out)
+        code, out = run(SUMMARY_REPORT, ["new", "workloop fmea", "--bare"], self.repo)
+        loop = os.path.join(self.repo, out.strip())
+        write(loop, TODAY + "\n\n# Work loop\n\nLoop status: RUNNING\n\n## Tasks\n\n### T1: x\n\n- Status: OPEN\n")
+        code, out = run(SUMMARY_REPORT, ["check", loop, "--no-sections"], self.repo)
+        self.assertEqual(code, 0, out)
+
     def test_byte_order_mark_and_numbered_headings(self):
         path = self.new("Checkout")
         self.fill(path)

@@ -41,7 +41,9 @@ CONTRIBUTING.md         # Authoring and portability rules
 
 Keep each skill self-contained. Add optional folders only when a skill needs them, and keep its `SKILL.md` as the clear entry point.
 
-Every completed analysis is saved as a dated Markdown report under `analysis/<skill-name>/` in the repository being analyzed. The report's first line is the analysis date in `YYYY-MM-DD` format.
+Every completed analysis is saved as a dated Markdown report under `analysis/<skill-name>/` in the repository being analyzed. The report's first line is the analysis date in `YYYY-MM-DD` format. Each report starts with **At a glance**: a count line and at most three key points in plain language, each with its evidence label. The agent shows only that section and the report path in the chat; the details stay in the file.
+
+When the agent can search the web, the market and business skills (Porter's Five Forces, Lean Canvas, Business Model Canvas) back their claims with dated external sources, and ATAM, FMEA and Anti-Reverse-Engineering Analysis may look up official vendor documentation. Such claims are labeled as external sources, never as observed facts, and nothing from your code or unreleased plans is put into a search.
 
 When several analyses have been run, the Analysis Summary skill collects them in `analysis/summary/`: a short summary for people that shows the most critical findings of each analysis, and one work loop per technical analysis. A work loop is a self-contained file that any coding agent can run again and again, fixing one finding with a test per run, until all findings are handled. The skill only prepares these files and then asks; a loop starts only when you say so.
 
